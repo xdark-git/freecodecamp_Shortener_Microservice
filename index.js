@@ -70,16 +70,18 @@ app.post('/api/shorturl', (req, res, next)=>{
   
   let urlFetch = req.body.url;
   let url;
-  
+ const httpFormat = /^(http|https)(:\/\/)/
+  if(!httpFormat.test(urlFetch)) return res.json({
+    error: "invalid url"
+  })
+    
   try {
     url = new URL(urlFetch);
     console.log(url)
   } 
   catch (e) {
-    console.log(e)
-    return res.json({
-      error: "Invalid URL"
-    })
+    console.log(e.toString())
+    return res.json({ error: 'Invalid url' })
     // console.log("error")
   }
 
